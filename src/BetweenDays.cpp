@@ -28,7 +28,58 @@ struct node{
 	struct node *next;
 };
 
-
+int LeapYearsCount(int days, int months, int years)
+{
+	if (months <= 2)
+		years--;
+	return years / 4 - years / 100 + years / 400;
+}
 int between_days(struct node *date1head, struct node *date2head){
-	return -1;
+	if (!date1head || !date2head)
+		return -1;
+	struct node *temp1 = date1head;
+	struct node *temp2 = date2head;
+	int count = 1;
+	int d1 = temp1->data * 10;
+	temp1 = temp1->next;
+	d1 += temp1->data;
+	int d2 = temp2->data * 10;
+	temp2 = temp2->next;
+	d1 += temp2->data;
+	temp1 = temp1->next;
+	int m1 = temp1->data * 10;
+	temp1 = temp1->next;
+	m1 += temp2->data;
+	temp1 = temp1->next;
+	int m2 = temp2->data * 10;
+	temp2 = temp2->next;
+	m2 += temp2->data;
+	temp2 = temp2->next;
+	int y1 = 0;
+	y1= y1 *10 + temp1->data;
+	temp1 = temp1->next;
+	y1 = y1 * 10 + temp1->data;
+	temp1 = temp1->next;
+	y1 = y1 * 10 + temp1->data;
+	temp1 = temp1->next;
+	y1 += temp1->data;
+	int y2 = 0;
+	y2 = y2 * 10 + temp2->data;
+	temp2 = temp2->next;
+	y2 = y2 * 10 + temp2->data;
+	temp2 = temp2->next;
+	y2 = y2 * 10 + temp2->data;
+	temp2 = temp2->next;
+	y2 += temp2->data;
+	printf("%d", d1);
+	int monthDays[12] = { 31, 28, 31, 30, 31, 30,31, 31, 30, 31, 30, 31 };
+	int n1 = y1 * 365 + d1;
+	for (int i = 0; i< m1 - 1; i++)
+		n1 += monthDays[i];
+	n1 += LeapYearsCount(d1, m1, y1);
+	int n2 = y2 * 365 + d2;
+	for (int i = 0; i< m2 - 1; i++)
+		n2 += monthDays[i];
+	n2 += LeapYearsCount(d2, m2, y2);
+	return n2 - n1;
 }
